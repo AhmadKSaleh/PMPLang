@@ -1,0 +1,10 @@
+var ___ : creates a variable with the name in the blank
+function ___ : creates a function with the name in the blank, 2d functions only with variable x
+display ___ : displays the function with the name in the blank
+sys ___ : executes system command in the blank
+read ___ : executes the file with the name in the blank
+print ___ : outputs what's in the blank, if it's a variable, it will print the value of the variable (without linebreak)
+println ___ : same as print, but with linebreak
+input ___ : adds a variable with the value of the user input and the name in the blank
+clear : clears the console
+quit : exits
