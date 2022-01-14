@@ -6,7 +6,11 @@ class Plot:
     def plot(resolution,y,vars):
         resolution = float(resolution)
         x = linspace(-resolution,resolution,100)
-        y = Variables.filterVars(y, vars, True)
+
+        # y = Variables.filterVars(y, vars, True)
+        # The above line is absolutely useless! before 2.5.1b this line just kinda stayed here
+        # - @AhmadKSaleh
+
         y = eval(y.replace("x", f"linspace(-{resolution},{resolution},100)"))
         # https://scriptverse.academy/tutorials/python-matplotlib-plot-function.html
 

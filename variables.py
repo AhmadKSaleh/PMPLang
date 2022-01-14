@@ -10,6 +10,7 @@ class Variables:
                 if isFunc:
                     if var == "x":
                         continue
+                    newStr = newStr.replace(var, str(vars[var]))
                 else:
                     newStr = newStr.replace(var, str(vars[var]))
             return newStr

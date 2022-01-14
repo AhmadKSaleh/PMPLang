@@ -39,7 +39,7 @@ class Input:
                 print("Goodbye!")
                 quit()
             elif splits[0] == "display":
-                Plot.plot(functions[splits[1]][1], Variables.filterVars(functions[splits[1]][0], vars, True), vars)
+                Plot.plot(functions[splits[1]][1], functions[splits[1]][0], vars)
                 continue
             elif splits[0] == "function":
                 try:
