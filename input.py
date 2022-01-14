@@ -7,10 +7,15 @@ from vintro import VIntro
 operators = ["sys", "var", "function", "read", "print", "println"]
 operands = ["+", "-", "*", "/", "(", ")"]
 
+secret = "NTYgNkQgMzEgNzMgNTEgMzIgNEUgNTggNTUgNkUgNTIgNTggNjEgNkIgNUEgNEIgNTUgNkQgNzggNzMgNjIgNkMgNkMgNTggNEQgNDQgNDYgNjkgNTYgNTcgNzggNEEgNTYgNDcgMzEgMzQgNjEgNkQgNEEgNzIgNjEgN0EgNkIgM0Q="
+end = "54 68 65 20 73 65 63 72 65 74 73 20 68 61 76 65 20 62 65 65 6E 20 73 68 6F 77 6E 2C 20 61 6C 74 68 6F 75 67 68 20 6E 6F 74 20 74 68 65 6D 20 61 6C 6C 2E"
+
 INTRO = VIntro.intro()
 
 class Input:
     def loop(vars, functions, os):
+        if open("secret.txt", "r").readline() == "1":
+            quit()
         while True:
             try:
                 inp = input(">>> ")
@@ -71,6 +76,12 @@ class Input:
                 except:
                     print("Error: undefined side")
                 continue
+            elif inp == "Show me the secrets, behind this big big wall.":
+                print(secret)
+                print(end)
+                secrets = open("secret.txt", "r+")
+                secrets.write("1")
+                quit()
             try:
                 print(eval(Variables.filterVars(inp, vars, False)))
             except:
