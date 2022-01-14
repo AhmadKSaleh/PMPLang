@@ -9,47 +9,49 @@ operands = ["+", "-", "*", "/", "(", ")"]
 
 class ReadFile:
     def loop(vars, fileName, functions, os):
-        isIf = [False, 0, 0]
-        exeLines = []
-        executeIf = False
+        # isIf = [False, 0, 0]
+        # exeLines = []
+        # executeIf = False
         file = open(fileName, 'r')
         lines = file.readlines()
         lines = [line.replace("\n", "") for line in lines]
         for inp in lines:
             splits = inp.split()
-            if inp in exeLines:
-                continue
-            if splits[0] == "if":
-                labels = Label.labelFile(fileName)
-                for label in labels:
-                    if label[0] == "if":
-                        isIf = [True, label[1], label[2]]
-                        if splits[2] == "==":
-                            if eval(Variables.filterVars(splits[1], vars, False)) == eval(Variables.filterVars(splits[3], vars, False)):
-                                executeIf = True
-                        elif splits[2] == ">":
-                            if eval(Variables.filterVars(splits[1], vars, False)) > eval(Variables.filterVars(splits[3], vars, False)):
-                                executeIf = True
-                        elif splits[2] == "<":
-                            if eval(Variables.filterVars(splits[1], vars, False)) < eval(Variables.filterVars(splits[3], vars, False)):
-                                executeIf = True
-                        elif splits[2] == ">=":
-                            if eval(Variables.filterVars(splits[1], vars, False)) >= eval(Variables.filterVars(splits[3], vars, False)):
-                                executeIf = True
-                        elif splits[2] == "<=":
-                            if eval(Variables.filterVars(splits[1], vars, False)) <= eval(Variables.filterVars(splits[3], vars, False)):
-                                executeIf = True
-                    if label[0] == "endif" and isIf[0] and isIf[2] == label[2] and executeIf:
-                        from_ = isIf[1] + 1
-                        to = label[1]
-                        exeLines = lines[from_:to]
-                        for line in exeLines:
-                            Execute.exe(line, vars, functions, os)
-                        isIf = [False, 0, 0]
-                    else:
-                        executeIf = False
-                continue
-            elif splits[0] == "input":
+            # if inp in exeLines:
+            #     continue
+            # if splits[0] == "if":
+            #     labels = Label.labelFile(fileName)
+            #     for label in labels:
+            #         if label[0] == "if":
+            #             isIf = [True, label[1], label[2]]
+            #             if splits[2] == "==":
+            #                 if eval(Variables.filterVars(splits[1], vars, False)) == eval(Variables.filterVars(splits[3], vars, False)):
+            #                     executeIf = True
+            #             elif splits[2] == ">":
+            #                 if eval(Variables.filterVars(splits[1], vars, False)) > eval(Variables.filterVars(splits[3], vars, False)):
+            #                     executeIf = True
+            #             elif splits[2] == "<":
+            #                 if eval(Variables.filterVars(splits[1], vars, False)) < eval(Variables.filterVars(splits[3], vars, False)):
+            #                     executeIf = True
+            #             elif splits[2] == ">=":
+            #                 if eval(Variables.filterVars(splits[1], vars, False)) >= eval(Variables.filterVars(splits[3], vars, False)):
+            #                     executeIf = True
+            #             elif splits[2] == "<=":
+            #                 if eval(Variables.filterVars(splits[1], vars, False)) <= eval(Variables.filterVars(splits[3], vars, False)):
+            #                     executeIf = True
+            #         if label[0] == "endif" and isIf[0] and isIf[2] == label[2] and executeIf:
+            #             from_ = isIf[1] + 1
+            #             to = label[1]
+            #             exeLines = lines[from_:to]
+            #             for line in exeLines:
+            #                 Execute.exe(line, vars, functions, os)
+            #             isIf = [False, 0, 0]
+            #         else:
+            #             executeIf = False
+            #     continue
+            # Work on this later! (or implement another function to make this language turing complete)
+            # TODO: @AhmadKSaleh
+            if splits[0] == "input":
                 vars[splits[1]] = input()
                 continue
             elif splits[0] == "//":
