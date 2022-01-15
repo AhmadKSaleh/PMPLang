@@ -7,7 +7,7 @@ from vintro import VIntro
 operators = ["sys", "var", "function", "read", "print", "println"]
 operands = ["+", "-", "*", "/", "(", ")"]
 
-secret = "NTYgNkQgMzEgNzMgNTEgMzIgNEUgNTggNTUgNkUgNTIgNTggNjEgNkIgNUEgNEIgNTUgNkQgNzggNzMgNjIgNkMgNkMgNTggNEQgNDQgNDYgNjkgNTYgNTcgNzggNEEgNTYgNDcgMzEgMzQgNjEgNkQgNEEgNzIgNjEgN0EgNkIgM0Q="
+secret = "NTYgNkQgMzEgNzMgNTEgMzIgNEUgNTggNTUgNkUgNTIgNTggNjEgNkIgNUEgNEIgNTUgNkQgNzggNzMgNjIgNkMgNkMgNTggNEQgNDQgNDYgNjkgNTYgNTcgNzggNEEgNTYgNDcgMzEgMzQgNjEgNkQgNEEgNzIgNjEgN0EgNkIgM0Q+-="
 end = "54 68 65 20 73 65 63 72 65 74 73 20 68 61 76 65 20 62 65 65 6E 20 73 68 6F 77 6E 2C 20 61 6C 74 68 6F 75 67 68 20 6E 6F 74 20 74 68 65 6D 20 61 6C 6C 2E"
 
 INTRO = VIntro.intro()
@@ -58,7 +58,10 @@ class Input:
                     functions[splits[1]] = [splits[3], 5]
                 continue
             elif splits[0] == "read":
-                ReadFile.loop({}, splits[1], {}, os)
+                try:
+                    ReadFile.loop({}, splits[1], {}, os)
+                except:
+                    print("Error: while reading " + splits[1])
                 continue
             elif inp == "clear":
                 if os == "Windows":

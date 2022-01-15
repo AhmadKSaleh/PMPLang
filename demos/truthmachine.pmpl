@@ -1,0 +1,7 @@
+input x
+jump x == 1 4
+quit
+print 1
+jump x == 1 4
+// These comments are important
+// alkshaodiushrfaioweduhflkasdjfhlakdjfglkwejdfa

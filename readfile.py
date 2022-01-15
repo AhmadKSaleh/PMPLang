@@ -1,9 +1,7 @@
 from os import system
-
 from matplotlib.pyplot import contour
 from variables import Variables
 from plot import Plot
-from label import Label
 
 operators = ["sys", "var", "function", "read", "print", "println"]
 operands = ["+", "-", "*", "/", "(", ")"]
@@ -113,5 +111,5 @@ class ReadFile:
                     print((eval(Variables.filterVars(line, vars, False))) if line not in vars else print(1/0))
                 except:
                     print("Error: invalid operation") 
-            if lineCount == len(cutlines)-1 or line == "quit":
+            if lineCount == len(cutlines)-1 or line == "quit" and not shouldJump:
                 ended = True
