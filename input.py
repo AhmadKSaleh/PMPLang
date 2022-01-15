@@ -15,6 +15,8 @@ INTRO = VIntro.intro()
 class Input:
     def loop(vars, functions, os):
         if open("secret.txt", "r").readline() == "1":
+            print(secret)
+            print(end)
             quit()
         while True:
             try:
@@ -25,6 +27,9 @@ class Input:
             splits = inp.split()
             if splits[0] == "input":
                 vars[splits[1]] = input()
+                continue
+            elif splits[0] == "inputASCII":
+                vars[splits[1]] = ord(input())
                 continue
             elif splits[0] == "//":
                 continue
@@ -48,15 +53,12 @@ class Input:
                 continue
             elif splits[0] == "function":
                 try:
-                    functions[splits[1]] = [Variables.filterVars(splits[3], vars, True), splits[4]]
+                    functions[splits[1]] = [splits[3], splits[4]]
                 except:
-                    functions[splits[1]] = [Variables.filterVars(splits[3], vars, True), 5]
+                    functions[splits[1]] = [splits[3], 5]
                 continue
             elif splits[0] == "read":
-                try:
-                    ReadFile.loop({}, splits[1], {}, os)
-                except:
-                    print("Error: too many file calls")
+                ReadFile.loop({}, splits[1], {}, os)
                 continue
             elif inp == "clear":
                 if os == "Windows":
@@ -75,6 +77,24 @@ class Input:
                     vars[splits[1]] = eval(Variables.filterVars(splits[3], vars, False))
                 except:
                     print("Error: undefined side")
+                continue
+            elif splits[1] == "==":
+                print(eval(Variables.filterVars(splits[0], vars, False)) == eval(Variables.filterVars(splits[2], vars, False)))
+                continue
+            elif splits[1] == ">=":
+                print(eval(Variables.filterVars(splits[0], vars, False)) >= eval(Variables.filterVars(splits[2], vars, False)))
+                continue
+            elif splits[1] == "<=":
+                print(eval(Variables.filterVars(splits[0], vars, False)) <= eval(Variables.filterVars(splits[2], vars, False)))
+                continue
+            elif splits[1] == "!=":
+                print(eval(Variables.filterVars(splits[0], vars, False)) != eval(Variables.filterVars(splits[2], vars, False)))
+                continue
+            elif splits[1] == ">":
+                print(eval(Variables.filterVars(splits[0], vars, False)) > eval(Variables.filterVars(splits[2], vars, False)))
+                continue
+            elif splits[1] == "<":
+                print(eval(Variables.filterVars(splits[0], vars, False)) < eval(Variables.filterVars(splits[2], vars, False)))
                 continue
             elif inp == "Show me the secrets, behind this big big wall.":
                 print(secret)

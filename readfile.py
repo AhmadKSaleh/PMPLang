@@ -1,5 +1,6 @@
 from os import system
-from executeLine import Execute
+
+from matplotlib.pyplot import contour
 from variables import Variables
 from plot import Plot
 from label import Label
@@ -8,103 +9,109 @@ operators = ["sys", "var", "function", "read", "print", "println"]
 operands = ["+", "-", "*", "/", "(", ")"]
 
 class ReadFile:
+    def handleJump(splits, vars):
+        # TODO: Ask Guido to add switch cases to Python
+        if splits[2] == "==":
+            if eval(Variables.filterVars(splits[1], vars, False)) == eval(Variables.filterVars(splits[3], vars, False)):
+                return 1
+        if splits[2] == "!=":
+            if eval(Variables.filterVars(splits[1], vars, False)) != eval(Variables.filterVars(splits[3], vars, False)):
+                return 1
+        if splits[2] == ">=":
+            if eval(Variables.filterVars(splits[1], vars, False)) >= eval(Variables.filterVars(splits[3], vars, False)):
+                return 1
+        if splits[2] == "<=":
+            if eval(Variables.filterVars(splits[1], vars, False)) <= eval(Variables.filterVars(splits[3], vars, False)):
+                return 1
+        if splits[2] == ">":
+            if eval(Variables.filterVars(splits[1], vars, False)) > eval(Variables.filterVars(splits[3], vars, False)):
+                return 1
+        if splits[2] == "<":
+            if eval(Variables.filterVars(splits[1], vars, False)) < eval(Variables.filterVars(splits[3], vars, False)):
+                return 1
+        return 0
     def loop(vars, fileName, functions, os):
-        # isIf = [False, 0, 0]
-        # exeLines = []
-        # executeIf = False
+        # ! WE HAVE WAY TOO MANY VARIABLES
+        # TODO: REDUCE VARIABLE COUNT
+        lineCount = 0
+        ended = False
+        shouldJump = False
         file = open(fileName, 'r')
         lines = file.readlines()
         lines = [line.replace("\n", "") for line in lines]
-        for inp in lines:
-            splits = inp.split()
-            # if inp in exeLines:
-            #     continue
-            # if splits[0] == "if":
-            #     labels = Label.labelFile(fileName)
-            #     for label in labels:
-            #         if label[0] == "if":
-            #             isIf = [True, label[1], label[2]]
-            #             if splits[2] == "==":
-            #                 if eval(Variables.filterVars(splits[1], vars, False)) == eval(Variables.filterVars(splits[3], vars, False)):
-            #                     executeIf = True
-            #             elif splits[2] == ">":
-            #                 if eval(Variables.filterVars(splits[1], vars, False)) > eval(Variables.filterVars(splits[3], vars, False)):
-            #                     executeIf = True
-            #             elif splits[2] == "<":
-            #                 if eval(Variables.filterVars(splits[1], vars, False)) < eval(Variables.filterVars(splits[3], vars, False)):
-            #                     executeIf = True
-            #             elif splits[2] == ">=":
-            #                 if eval(Variables.filterVars(splits[1], vars, False)) >= eval(Variables.filterVars(splits[3], vars, False)):
-            #                     executeIf = True
-            #             elif splits[2] == "<=":
-            #                 if eval(Variables.filterVars(splits[1], vars, False)) <= eval(Variables.filterVars(splits[3], vars, False)):
-            #                     executeIf = True
-            #         if label[0] == "endif" and isIf[0] and isIf[2] == label[2] and executeIf:
-            #             from_ = isIf[1] + 1
-            #             to = label[1]
-            #             exeLines = lines[from_:to]
-            #             for line in exeLines:
-            #                 Execute.exe(line, vars, functions, os)
-            #             isIf = [False, 0, 0]
-            #         else:
-            #             executeIf = False
-            #     continue
-            # Work on this later! (or implement another function to make this language turing complete)
-            # TODO: @AhmadKSaleh
-            if splits[0] == "input":
-                vars[splits[1]] = input()
-                continue
-            elif splits[0] == "//":
-                continue
-            elif splits[0] == "print":
-                if inp[6:] in vars:
-                    print(vars[inp[6:]], end="")
-                else:
-                    print(inp[6:], end="")
-                continue
-            elif splits[0] == "println":
-                if inp[8:] in vars:
-                    print(vars[inp[8:]])
-                else:
-                    print(inp[8:])
-                continue
-            elif inp == "quit":
-                quit()
-            elif splits[0] == "display":
-                Plot.plot(functions[splits[1]][1], Variables.filterVars(functions[splits[1]][0], vars, True), vars)
-                continue
-            elif splits[0] == "function":
+        line = lines[0]
+        splits = line.split()
+        cutlines = lines
+        while not ended:
+            if shouldJump:
+                cutlines = lines[int(splits[4])-1:]
+                shouldJump = False
+            for lineCount in range(len(cutlines)):
+                line = cutlines[lineCount]
+                splits = line.split()
+                if splits[0] == "jump":
+                    if ReadFile.handleJump(splits, vars) == 1:
+                        shouldJump = True
+                        break
+                    continue
+                elif splits[0] == "input":
+                    vars[splits[1]] = int(input())
+                    continue
+                elif splits[0] == "inputASCII":
+                    vars[splits[1]] = ord(input())
+                    continue
+                elif splits[0] == "//":
+                    continue
+                elif splits[0] == "print":
+                    if line[6:] in vars:
+                        print(vars[line[6:]], end="")
+                    else:
+                        print(line[6:], end="")
+                    continue
+                elif splits[0] == "println":
+                    if line[8:] in vars:
+                        print(vars[line[8:]])
+                    else:
+                        print(line[8:])
+                    continue
+                elif line == "quit":
+                    ended = True
+                    break
+                elif splits[0] == "display":
+                    Plot.plot(functions[splits[1]][1], Variables.filterVars(functions[splits[1]][0], vars, True), vars)
+                    continue
+                elif splits[0] == "function":
+                    try:
+                        functions[splits[1]] = [Variables.filterVars(splits[3], vars, True), splits[4]]
+                    except:
+                        functions[splits[1]] = [Variables.filterVars(splits[3], vars, True), 5]
+                    continue
+                elif splits[0] == "read":
+                    try:
+                        ReadFile.loop({}, splits[1], {}, True)
+                    except:
+                        print("Error: too many file calls")
+                    continue
+                elif line == "clear":
+                    if os == "Windows":
+                        system('cls')
+                    else:
+                        system("clear")
+                    continue
+                elif splits[0] == "sys":
+                    system(line[4:])
+                    continue
+                elif splits[0] == "var":
+                    try:
+                        if splits[1] in operators or splits[1] in operands:
+                            print("Error: variable name defined as keyword")
+                        vars[splits[1]] = eval(Variables.filterVars(splits[3], vars, False))
+                    except:
+                        print("Error: undefined side")
+                    continue
                 try:
-                    functions[splits[1]] = [Variables.filterVars(splits[3], vars, True), splits[4]]
+                    print((eval(Variables.filterVars(line, vars, False))) if line not in vars else print(1/0))
                 except:
-                    functions[splits[1]] = [Variables.filterVars(splits[3], vars, True), 5]
-                continue
-            elif splits[0] == "read":
-                try:
-                    ReadFile.loop({}, splits[1], {}, True)
-                except:
-                    print("Error: too many file calls")
-                continue
-            elif inp == "clear":
-                if os == "Windows":
-                    system('cls')
-                else:
-                    system("clear")
-                continue
-            elif splits[0] == "sys":
-                system(inp[4:])
-                continue
-            elif splits[0] == "var":
-                try:
-                    if splits[1] in operators or splits[1] in operands:
-                        print("Error: variable name defined as keyword")
-                    vars[splits[1]] = eval(Variables.filterVars(splits[3], vars, False))
-                except:
-                    print("Error: undefined side")
-                continue
-            elif inp == "endif":
-                continue
-            try:
-                print((eval(Variables.filterVars(inp, vars, False))) if inp not in vars else print(1/0))
-            except:
-                print("Error: invalid operation") 
+                    print("Error: invalid operation") 
+            if lineCount == len(cutlines)-1 or line == "quit":
+                ended = True
