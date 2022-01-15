@@ -12,3 +12,4 @@ Version 2.5: Added quality-of-life changes (for me), and you can no longer type 
 Version 2.5.1b: Fixed a bug while relating variables to functions (again)
 Version 2.5.1-ntc: 2.5.1b release without the if statement
 Version 2.6: Added the jump command
+Version 2.6.1: Fixed some bugs
