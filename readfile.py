@@ -47,6 +47,10 @@ class ReadFile:
             for lineCount in range(len(cutlines)):
                 line = cutlines[lineCount]
                 splits = line.split()
+                if line == "\n":
+                    continue
+                elif splits[0] == "//":
+                    continue
                 if splits[0] == "jump":
                     if ReadFile.handleJump(splits, vars) == 1:
                         shouldJump = True
@@ -57,8 +61,6 @@ class ReadFile:
                     continue
                 elif splits[0] == "inputASCII":
                     vars[splits[1]] = ord(input())
-                    continue
-                elif splits[0] == "//":
                     continue
                 elif splits[0] == "print":
                     if line[6:] in vars:
