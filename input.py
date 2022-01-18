@@ -51,6 +51,9 @@ class Input:
             elif splits[0] == "display":
                 Plot.plot(functions[splits[1]][1], functions[splits[1]][0], vars)
                 continue
+            elif splits[0] == "display3d":
+                Plot.plot3d(functions[splits[1]][1], Variables.filterVars(functions[splits[1]][0], vars, True), vars)
+                continue
             elif splits[0] == "function":
                 try:
                     functions[splits[1]] = [splits[3], splits[4]]

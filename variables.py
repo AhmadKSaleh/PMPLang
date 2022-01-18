@@ -8,7 +8,7 @@ class Variables:
                 return string
             for var in vars:
                 if isFunc:
-                    if var == "x":
+                    if var == "x" or var == "y":
                         continue
                     newStr = newStr.replace(var, str(vars[var]))
                 else:

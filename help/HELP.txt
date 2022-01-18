@@ -7,4 +7,5 @@ print ___ : outputs what's in the blank, if it's a variable, it will print the v
 println ___ : same as print, but with linebreak
 input ___ : adds a variable with the value of the user input and the name in the blank
 clear : clears the console
+jump ___ ___: evaluates the expression in the first blank and jumps to the line with the number in the second blank if the expression is true
 quit : exits

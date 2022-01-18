@@ -1,26 +1,37 @@
-// calculator.pmpl
-// By @AhmadKSaleh on 15/1/2022
-// Tell the user to input the values
-print Enter X:
+// calculator.pmpl //
+// By @AhmadKSaleh on 15/1/2022 //
+// Tell the user to input the values //
+
+print Enter X: 
 input x
-print Enter the operation:
+print Enter the operation: 
 inputASCII operation
-print Enter Y:
+print Enter Y: 
 input y
-// Do specific operations
-jump operation == 43 15
-jump operation == 45 18
-jump operation == 47 21
-jump operation == 42 22
-var output = x+y
+
+// Do specific operations //
+jump operation == 43 18
+jump operation == 45 22
+jump operation == 47 26
+jump operation == 42 30
+
+var output = x24
 println output
 quit
+
 var output = x-y
 println output
 quit
+
 var output = x/y
 println output
 quit
+
 var output = x*y
 println output
+quit
+
+print Do you want to go again? (y/n)
+inputASCII again
+jump again == 121 5
 quit

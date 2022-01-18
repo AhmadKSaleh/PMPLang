@@ -1,3 +1,4 @@
+from decimal import DivisionByZero
 from os import system
 from matplotlib.pyplot import contour
 from variables import Variables
@@ -36,7 +37,8 @@ class ReadFile:
         shouldJump = False
         file = open(fileName, 'r')
         lines = file.readlines()
-        lines = [line.replace("\n", "") for line in lines]
+        lines.insert(len(lines), "\n") # we have to do this madness to fix the jump problem
+        lines = [line.replace("\n", "") if line != "\n" else "\n" for line in lines]
         line = lines[0]
         splits = line.split()
         cutlines = lines
@@ -50,8 +52,10 @@ class ReadFile:
                 if line == "\n":
                     continue
                 elif splits[0] == "//":
+                    if splits[len(splits)-1] != "//":
+                        raise DivisionByZero
                     continue
-                if splits[0] == "jump":
+                elif splits[0] == "jump":
                     if ReadFile.handleJump(splits, vars) == 1:
                         shouldJump = True
                         break
@@ -79,6 +83,9 @@ class ReadFile:
                     break
                 elif splits[0] == "display":
                     Plot.plot(functions[splits[1]][1], Variables.filterVars(functions[splits[1]][0], vars, True), vars)
+                    continue
+                elif splits[0] == "display3d":
+                    Plot.plot3d(functions[splits[1]][1], Variables.filterVars(functions[splits[1]][0], vars, True), vars)
                     continue
                 elif splits[0] == "function":
                     try:
