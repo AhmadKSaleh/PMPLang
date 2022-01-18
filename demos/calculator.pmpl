@@ -15,7 +15,7 @@ jump operation == 45 22
 jump operation == 47 26
 jump operation == 42 30
 
-var output = x24
+var output = x+y
 println output
 quit
 
