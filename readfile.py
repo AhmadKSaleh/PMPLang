@@ -9,23 +9,23 @@ operands = ["+", "-", "*", "/", "(", ")"]
 class ReadFile:
     def handleJump(splits, vars):
         # TODO: Ask Guido to add switch cases to Python
-        if splits[2] == "==":
-            if eval(Variables.filterVars(splits[1], vars, False)) == eval(Variables.filterVars(splits[3], vars, False)):
+        if splits[3] == "==":
+            if eval(Variables.filterVars(splits[2], vars, False)) == eval(Variables.filterVars(splits[4], vars, False)):
                 return 1
-        if splits[2] == "!=":
-            if eval(Variables.filterVars(splits[1], vars, False)) != eval(Variables.filterVars(splits[3], vars, False)):
+        if splits[3] == "!=":
+            if eval(Variables.filterVars(splits[2], vars, False)) != eval(Variables.filterVars(splits[4], vars, False)):
                 return 1
-        if splits[2] == ">=":
-            if eval(Variables.filterVars(splits[1], vars, False)) >= eval(Variables.filterVars(splits[3], vars, False)):
+        if splits[3] == ">=":
+            if eval(Variables.filterVars(splits[2], vars, False)) >= eval(Variables.filterVars(splits[4], vars, False)):
                 return 1
-        if splits[2] == "<=":
-            if eval(Variables.filterVars(splits[1], vars, False)) <= eval(Variables.filterVars(splits[3], vars, False)):
+        if splits[3] == "<=":
+            if eval(Variables.filterVars(splits[2], vars, False)) <= eval(Variables.filterVars(splits[4], vars, False)):
                 return 1
-        if splits[2] == ">":
-            if eval(Variables.filterVars(splits[1], vars, False)) > eval(Variables.filterVars(splits[3], vars, False)):
+        if splits[3] == ">":
+            if eval(Variables.filterVars(splits[2], vars, False)) > eval(Variables.filterVars(splits[4], vars, False)):
                 return 1
-        if splits[2] == "<":
-            if eval(Variables.filterVars(splits[1], vars, False)) < eval(Variables.filterVars(splits[3], vars, False)):
+        if splits[3] == "<":
+            if eval(Variables.filterVars(splits[2], vars, False)) < eval(Variables.filterVars(splits[4], vars, False)):
                 return 1
         return 0
     def loop(vars, fileName, functions, os):
@@ -43,7 +43,7 @@ class ReadFile:
         cutlines = lines
         while not ended:
             if shouldJump:
-                cutlines = lines[int(splits[4])-1:]
+                cutlines = lines[int(splits[7])-1:]
                 shouldJump = False
             for lineCount in range(len(cutlines)):
                 line = cutlines[lineCount]
@@ -55,10 +55,12 @@ class ReadFile:
                         raise ZeroDivisionError
                     continue
                 elif splits[0] == "jump":
-                    if splits[1] == "if":
+                    if splits[1] == "if" and splits[5] == "to" and splits[6] == "line":
                         if ReadFile.handleJump(splits, vars) == 1:
                             shouldJump = True
                             break
+                    else:
+                        raise ZeroDivisionError
                     continue
                 elif splits[0] == "input":
                     vars[splits[1]] = int(input())

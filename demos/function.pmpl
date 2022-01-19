@@ -1,2 +1,4 @@
 function y = x**2
 display y
+function z = cos(x) + cos(y)
+display3d z

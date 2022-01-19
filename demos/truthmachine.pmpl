@@ -1,5 +1,5 @@
 input x
-jump x == 1 4
+jump if x == 1 to line 4
 quit
 print 1
-jump x == 1 4
+jump if x == 1 to line 4

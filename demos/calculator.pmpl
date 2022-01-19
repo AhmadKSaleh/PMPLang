@@ -10,10 +10,10 @@ print Enter Y:
 input y
 
 // Do specific operations //
-jump operation == 43 18
-jump operation == 45 22
-jump operation == 47 26
-jump operation == 42 30
+jump if operation == 43 to line 18
+jump if operation == 45 to line 22
+jump if operation == 47 to line 26
+jump if operation == 42 to line 30
 
 var output = x+y
 println output
