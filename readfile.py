@@ -1,4 +1,3 @@
-from decimal import DivisionByZero
 from os import system
 from matplotlib.pyplot import contour
 from variables import Variables
@@ -53,12 +52,13 @@ class ReadFile:
                     continue
                 elif splits[0] == "//":
                     if splits[len(splits)-1] != "//":
-                        raise DivisionByZero
+                        raise ZeroDivisionError
                     continue
                 elif splits[0] == "jump":
-                    if ReadFile.handleJump(splits, vars) == 1:
-                        shouldJump = True
-                        break
+                    if splits[1] == "if":
+                        if ReadFile.handleJump(splits, vars) == 1:
+                            shouldJump = True
+                            break
                     continue
                 elif splits[0] == "input":
                     vars[splits[1]] = int(input())
