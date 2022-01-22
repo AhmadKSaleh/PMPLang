@@ -1,6 +1,7 @@
-import matplotlib.pyplot as plt
 from numpy import *
+import matplotlib.pyplot as plt
 from variables import Variables
+from sympy import *
 
 class Plot:
     def veval(x, vars, isFunc):
@@ -27,7 +28,6 @@ class Plot:
         ax.plot_surface(x, y, z, cmap ='viridis', edgecolor ='green')
         ax.set_title('Surface plot geeks for geeks')
         plt.show()
-
     def plot(resolution,y,vars):
         resolution = float(resolution)
         x = linspace(-resolution,resolution,100)
@@ -53,3 +53,8 @@ class Plot:
 
         # show the plot
         plt.show()
+    def derivative(string, vars):
+        # https://towardsdatascience.com/taking-derivatives-in-python-d6229ba72c64
+
+        x = Symbol('x')
+        return str(diff(eval(Variables.filterVars(string, vars, True))))

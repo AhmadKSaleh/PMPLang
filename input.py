@@ -60,6 +60,15 @@ class Input:
                 except:
                     functions[splits[1]] = [splits[3], 5]
                 continue
+            elif splits[0] == "derivative":
+                    if splits[2] == "->":
+                        try:
+                            functions[splits[3]] = [Plot.derivative(functions[splits[1]][0], vars), functions[splits[1]][1]]
+                        except:
+                            functions[splits[3]] = [Plot.derivative(functions[splits[1]][0], vars), 5]
+                    else:
+                        print("Error: while making derivative")
+                    continue
             elif splits[0] == "read":
                 try:
                     ReadFile.loop({}, splits[1], {}, os)

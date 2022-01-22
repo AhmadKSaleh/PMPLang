@@ -50,6 +50,15 @@ class ReadFile:
                 splits = line.split()
                 if line == "\n":
                     continue
+                elif splits[0] == "derivative":
+                    if splits[2] == "->":
+                        try:
+                            functions[splits[3]] = [Plot.derivative(functions[splits[1]][0], vars), functions[splits[1]][1]]
+                        except:
+                            functions[splits[3]] = [Plot.derivative(functions[splits[1]][0], vars), 5]
+                    else:
+                        raise ZeroDivisionError
+                    continue
                 elif splits[0] == "//":
                     if splits[len(splits)-1] != "//":
                         raise ZeroDivisionError
