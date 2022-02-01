@@ -1,8 +1,7 @@
-from input import Input
 from vintro import VIntro
-
 INTRO = VIntro.intro()
 print(INTRO)
+from input import Input
 
 vars = {}
 functions = {}
