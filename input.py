@@ -22,9 +22,11 @@ class Input:
             try:
                 inp = input(">>> ")
             except KeyboardInterrupt:
-                print("\nGoodbye!")
+                print("\nError: user force-exited, ending process")
                 quit()
             splits = inp.split()
+            a = eval(Variables.filterVars(splits[0], vars, False))
+            b = eval(Variables.filterVars(splits[2], vars, False))
             if splits[0] == "input":
                 vars[splits[1]] = input()
                 continue
@@ -46,7 +48,7 @@ class Input:
                     print(inp[8:])
                 continue
             elif inp == "quit":
-                print("Goodbye!")
+                print("Error: user force-exited, ending process")
                 quit()
             elif splits[0] == "display":
                 Plot.plot(functions[splits[1]][1], functions[splits[1]][0], vars)
@@ -93,25 +95,26 @@ class Input:
                 except:
                     print("Error: undefined side")
                 continue
-            elif splits[1] == "==":
-                print(eval(Variables.filterVars(splits[0], vars, False)) == eval(Variables.filterVars(splits[2], vars, False)))
-                continue
-            elif splits[1] == ">=":
-                print(eval(Variables.filterVars(splits[0], vars, False)) >= eval(Variables.filterVars(splits[2], vars, False)))
-                continue
-            elif splits[1] == "<=":
-                print(eval(Variables.filterVars(splits[0], vars, False)) <= eval(Variables.filterVars(splits[2], vars, False)))
-                continue
-            elif splits[1] == "!=":
-                print(eval(Variables.filterVars(splits[0], vars, False)) != eval(Variables.filterVars(splits[2], vars, False)))
-                continue
-            elif splits[1] == ">":
-                print(eval(Variables.filterVars(splits[0], vars, False)) > eval(Variables.filterVars(splits[2], vars, False)))
-                continue
-            elif splits[1] == "<":
-                print(eval(Variables.filterVars(splits[0], vars, False)) < eval(Variables.filterVars(splits[2], vars, False)))
-                continue
-            elif inp == "Show me the secrets, behind this big big wall.":
+            match splits[1]:
+                case "==":
+                    print(a == b)
+                    continue
+                case ">=":
+                    print(a >= b)
+                    continue
+                case "<=":
+                    print(a <= b)
+                    continue
+                case "!=":
+                    print(a != b)
+                    continue
+                case ">":
+                    print(a > b)
+                    continue
+                case "<":
+                    print(a < b)
+                    continue
+            if inp == "Show me the secrets, behind this big big wall.":
                 print(secret)
                 print(end)
                 secrets = open("secret.txt", "r+")
