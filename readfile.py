@@ -9,24 +9,21 @@ operands = ["+", "-", "*", "/", "(", ")"]
 class ReadFile:
     def handleJump(splits, vars):
         # TODO: Ask Guido to add switch cases to Python
-        if splits[3] == "==":
-            if eval(Variables.filterVars(splits[2], vars, False)) == eval(Variables.filterVars(splits[4], vars, False)):
-                return 1
-        if splits[3] == "!=":
-            if eval(Variables.filterVars(splits[2], vars, False)) != eval(Variables.filterVars(splits[4], vars, False)):
-                return 1
-        if splits[3] == ">=":
-            if eval(Variables.filterVars(splits[2], vars, False)) >= eval(Variables.filterVars(splits[4], vars, False)):
-                return 1
-        if splits[3] == "<=":
-            if eval(Variables.filterVars(splits[2], vars, False)) <= eval(Variables.filterVars(splits[4], vars, False)):
-                return 1
-        if splits[3] == ">":
-            if eval(Variables.filterVars(splits[2], vars, False)) > eval(Variables.filterVars(splits[4], vars, False)):
-                return 1
-        if splits[3] == "<":
-            if eval(Variables.filterVars(splits[2], vars, False)) < eval(Variables.filterVars(splits[4], vars, False)):
-                return 1
+        a = eval(Variables.filterVars(splits[2], vars, False))
+        b = eval(Variables.filterVars(splits[4], vars, False))
+        match splits[3]:
+            case "==":
+                return int(a == b)
+            case "!=":
+                return int(a != b)
+            case ">=":
+                return int(a >= b)
+            case "<=":
+                return int(a <= b)
+            case ">":
+                return int(a > b)
+            case "<":
+                return int(a < b)
         return 0
     def loop(vars, fileName, functions, os):
         # ! WE HAVE WAY TOO MANY VARIABLES
