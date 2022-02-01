@@ -9,3 +9,4 @@ input ___ : adds a variable with the value of the user input and the name in the
 clear : clears the console
 jump if ___ to line ___: evaluates the expression in the first blank and jumps to the line with the number in the second blank if the expression is true
 quit : exits
+inputASCII ___ : adds a variable with the value of the ASCII convertion of the user input and the name in the blank
