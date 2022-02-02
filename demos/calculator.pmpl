@@ -15,23 +15,23 @@ jump if operation == 45 to line 22
 jump if operation == 47 to line 26
 jump if operation == 42 to line 30
 
-var output = x+y
+int output = x+y
 println output
-quit
+jump if 1 == 1 to line 36
 
-var output = x-y
+int output = x-y
 println output
-quit
+jump if 1 == 1 to line 36
 
-var output = x/y
+int output = x/y
 println output
-quit
+jump if 1 == 1 to line 36
 
-var output = x*y
+int output = x*y
 println output
-quit
+jump if 1 == 1 to line 36
 
 print Do you want to go again? (y/n)
 inputASCII again
-jump again == 121 5
+jump if again == 121 to line 5
 quit

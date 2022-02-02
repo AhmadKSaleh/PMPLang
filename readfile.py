@@ -8,7 +8,6 @@ operands = ["+", "-", "*", "/", "(", ")"]
 
 class ReadFile:
     def handleJump(splits, vars):
-        # TODO: Ask Guido to add switch cases to Python
         a = eval(Variables.filterVars(splits[2], vars, False))
         b = eval(Variables.filterVars(splits[4], vars, False))
         match splits[3]:

@@ -3,9 +3,12 @@ from variables import Variables
 from readfile import ReadFile
 from plot import Plot
 from vintro import VIntro
+from termcolor import colored
 
 operators = ["sys", "var", "function", "read", "print", "println"]
 operands = ["+", "-", "*", "/", "(", ")"]
+if_perands = ["==", "!=", ">=", "<=", ">", "<"]
+varTypes = ['int', 'str', 'bool']
 
 secret = "NTYgNkQgMzEgNzMgNTEgMzIgNEUgNTggNTUgNkUgNTIgNTggNjEgNkIgNUEgNEIgNTUgNkQgNzggNzMgNjIgNkMgNkMgNTggNEQgNDQgNDYgNjkgNTYgNTcgNzggNEEgNTYgNDcgMzEgMzQgNjEgNkQgNEEgNzIgNjEgN0EgNkIgM0Q+-="
 end = "54 68 65 20 73 65 63 72 65 74 73 20 68 61 76 65 20 62 65 65 6E 20 73 68 6F 77 6E 2C 20 61 6C 74 68 6F 75 67 68 20 6E 6F 74 20 74 68 65 6D 20 61 6C 6C 2E"
@@ -14,19 +17,28 @@ INTRO = VIntro.intro()
 
 class Input:
     def loop(vars, functions, os):
+        pastOperationSuccess = True
         if open("secret.txt", "r").readline() == "1":
             print(secret)
             print(end)
             quit()
         while True:
             try:
-                inp = input(">>> ")
+                if pastOperationSuccess:
+                    inp = input(colored(">>> ", "green"))
+                else:
+                    inp = input(colored(">>> ", "red"))
+                    pastOperationSuccess = True
             except KeyboardInterrupt:
                 print("\nError: user force-exited, ending process")
                 quit()
             splits = inp.split()
-            a = eval(Variables.filterVars(splits[0], vars, False))
-            b = eval(Variables.filterVars(splits[2], vars, False))
+            try:
+                if splits[1] in if_perands:
+                    a = eval(Variables.filterVars(splits[0], vars, False))
+                    b = eval(Variables.filterVars(splits[2], vars, False))
+            except:
+                None
             if splits[0] == "input":
                 vars[splits[1]] = input()
                 continue
@@ -69,13 +81,15 @@ class Input:
                         except:
                             functions[splits[3]] = [Plot.derivative(functions[splits[1]][0], vars), 5]
                     else:
-                        print("Error: while making derivative")
+                        print("Error: while calculating derivative of " + splits[1])
+                        pastOperationSuccess = False
                     continue
             elif splits[0] == "read":
                 try:
                     ReadFile.loop({}, splits[1], {}, os)
                 except:
                     print("Error: while reading " + splits[1])
+                    pastOperationSuccess = False
                 continue
             elif inp == "clear":
                 if os == "Windows":
@@ -87,33 +101,38 @@ class Input:
             elif splits[0] == "sys":
                 system(inp[4:])
                 continue
-            elif splits[0] == "var":
+            elif splits[0] in varTypes:
                 try:
                     if splits[1] in operators or splits[1] in operands:
                         print("Error: variable name defined as keyword")
-                    vars[splits[1]] = eval(Variables.filterVars(splits[3], vars, False))
+                        pastOperationSuccess = False
+                    vars[splits[1]] = [eval(Variables.filterVars(splits[3], vars, False)), splits[0]]
                 except:
-                    print("Error: undefined side")
+                    print("Error: while processing variable " + splits[1])
+                    pastOperationSuccess = False
                 continue
-            match splits[1]:
-                case "==":
-                    print(a == b)
-                    continue
-                case ">=":
-                    print(a >= b)
-                    continue
-                case "<=":
-                    print(a <= b)
-                    continue
-                case "!=":
-                    print(a != b)
-                    continue
-                case ">":
-                    print(a > b)
-                    continue
-                case "<":
-                    print(a < b)
-                    continue
+            try:
+                match splits[1]:
+                    case "==":
+                        print(a == b)
+                        continue
+                    case ">=":
+                        print(a >= b)
+                        continue
+                    case "<=":
+                        print(a <= b)
+                        continue
+                    case "!=":
+                        print(a != b)
+                        continue
+                    case ">":
+                        print(a > b)
+                        continue
+                    case "<":
+                        print(a < b)
+                        continue
+            except:
+                None
             if inp == "Show me the secrets, behind this big big wall.":
                 print(secret)
                 print(end)
@@ -123,4 +142,5 @@ class Input:
             try:
                 print(eval(Variables.filterVars(inp, vars, False)))
             except:
-                print("Error: invalid operation")
+                print("Error: invalid operation: " + splits[0])
+                pastOperationSuccess = False
