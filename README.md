@@ -29,4 +29,3 @@ bash file.sh
 | `sys`        | Executes a system command                                                                                    | `sys echo Hello!`          | 
 | `display`    | Displays a function as a graph                                                                               | `display square`           |
 | `display3d`  | Displays a function as a 3d graph                                                                            | `display3d sphere`         |
-| `var`        | Adds a variable with a name (can only be an integer)                                                         | `var x = 3`                |
